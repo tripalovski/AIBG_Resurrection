@@ -1,7 +1,7 @@
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class EnemyBehaviour : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     // This is a parent class for enemies
     // They all have to flee from the player (wolf), avoid obstacles while running
@@ -23,6 +23,19 @@ public class EnemyBehaviour : MonoBehaviour
     private Rigidbody2D rigidBody2D;
     private Vector2 wanderDirection;
     private float nextDirectionTime;
+
+    private int lifePoints = 3;
+
+    protected void Awake() {
+        Player.Instance.OnAttack += Player_OnAttack;
+    }
+
+    private void Player_OnAttack(object sender, System.EventArgs e) {
+        lifePoints--;
+        if (lifePoints < 0) { 
+            Destroy(gameObject);
+        }
+    }
 
     protected virtual void Start() {
         rigidBody2D = GetComponent<Rigidbody2D>();
