@@ -86,6 +86,7 @@ public class Player : MonoBehaviour
             // trying to determine what object is near
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
                 // if it's an enemy, we attack
+                // have different startegies for enemies
                 OnAttack?.Invoke(this, EventArgs.Empty);
             } else {
                 // it's food, we eat it and update hunger system
@@ -102,10 +103,10 @@ public class Player : MonoBehaviour
     }
 
     private void ConsumeFood() {
-
+        // update hunger system, health
     }
 
     private void PickDirection() {
-        float angle = UnityEngine.Random.Range(0f, 360f);
+        //float angle = UnityEngine.Random.Range(0f, 360f);
     }
 }

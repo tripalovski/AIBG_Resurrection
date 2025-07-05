@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
     private Vector2 wanderDirection;
     private float nextDirectionTime;
 
-    protected void Awake() {
+    protected virtual void Awake() {
         Player.Instance.OnAttack += Player_OnAttack;
     }
 
