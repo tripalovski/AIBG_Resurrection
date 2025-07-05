@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sheep : Enemy
+public class Sheep : FoodEnemy
 {
     
     

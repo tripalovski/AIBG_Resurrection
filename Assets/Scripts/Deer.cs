@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Deer : Enemy
+public class Deer : FoodEnemy
 {
     
 }
