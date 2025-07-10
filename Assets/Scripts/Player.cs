@@ -106,6 +106,9 @@ public class Player : MonoBehaviour
         // update hunger system, health
     }
 
+    private void Attack(int lifePoints) {
+
+    }
     private void PickDirection() {
         //float angle = UnityEngine.Random.Range(0f, 360f);
     }

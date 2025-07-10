@@ -9,7 +9,12 @@ public class FoodEnemy : Enemy
     // Their difference is way of moving (some jump, some walk) 
     // They will override the wander function (if it's necessary, maybe I will make animations for the food enemies)
 
-    private int lifePoints = 3;
+    public override int lifePoints 
+    { 
+        get => _lifePoints;
+        set => _lifePoints = value;
+    }
+    private int _lifePoints = 3;
 
     protected override void Player_OnAttack(object sender, EventArgs e) {
         lifePoints--;

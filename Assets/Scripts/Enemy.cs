@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] private Player player;
     private float wanderSpeed = 1.5f;
@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rigidBody2D;
     private Vector2 wanderDirection;
     private float nextDirectionTime;
+    public virtual int lifePoints { get; set; }
 
     protected virtual void Awake() {
         Player.Instance.OnAttack += Player_OnAttack;
