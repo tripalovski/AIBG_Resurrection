@@ -7,7 +7,11 @@ public class Player : MonoBehaviour
 
     [SerializeField] private GameInput gameInput;
 
-    public event EventHandler OnAttack;
+    public event EventHandler<OnAttackPointsEventArgs> OnAttack;
+
+    public class OnAttackPointsEventArgs : EventArgs {
+        public int lifePoints;
+    }
 
     private float interactDistance = 1.5f;
     private float moveSpeed = 2f;
@@ -87,7 +91,9 @@ public class Player : MonoBehaviour
             if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
                 // if it's an enemy, we attack
                 // have different startegies for enemies
-                OnAttack?.Invoke(this, EventArgs.Empty);
+                // this has to be changed and put as a variable that were passing
+                // life points will be determined based on the wolf's strength, stamina, health, hunger
+                Attack(0);
             } else {
                 // it's food, we eat it and update hunger system
                 ConsumeFood();
@@ -107,7 +113,9 @@ public class Player : MonoBehaviour
     }
 
     private void Attack(int lifePoints) {
-
+        OnAttack?.Invoke(this, new OnAttackPointsEventArgs {
+            lifePoints = lifePoints
+        });
     }
     private void PickDirection() {
         //float angle = UnityEngine.Random.Range(0f, 360f);

@@ -16,8 +16,8 @@ public class FoodEnemy : Enemy
     }
     private int _lifePoints = 3;
 
-    protected override void Player_OnAttack(object sender, EventArgs e) {
-        lifePoints--;
+    protected override void Player_OnAttack(object sender, Player.OnAttackPointsEventArgs e) {
+        lifePoints-= e.lifePoints;
         if (lifePoints <= 0 ) {
             Destroy(gameObject);
         }

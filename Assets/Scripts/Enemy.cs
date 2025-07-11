@@ -23,7 +23,7 @@ public abstract class Enemy : MonoBehaviour
         Player.Instance.OnAttack += Player_OnAttack;
     }
 
-    protected virtual void Player_OnAttack(object sender, System.EventArgs e) { }
+    protected virtual void Player_OnAttack(object sender, Player.OnAttackPointsEventArgs e) { }
 
     protected virtual void Start() {
         rigidBody2D = GetComponent<Rigidbody2D>();
