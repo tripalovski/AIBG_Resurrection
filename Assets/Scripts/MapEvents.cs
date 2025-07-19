@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,21 +6,47 @@ using UnityEngine;
 
 public class MapEvents : MonoBehaviour
 {
+    public static MapEvents Instance { get; private set; }
+
     [SerializeField] private List<GameObject> players = new List<GameObject>();
     [SerializeField] private GameObject rainEffect;
 
 
     // Game parameters
-    private const float RAIN_SPEED_REDUCE = -3;
-    private const float RAIN_START_MIN_SECONDS = 120;
-    private const float RAIN_START_MAX_SECONDS = 300;
-    private const float RAIN_DURATION_MIN_SECONDS = 30;
-    private const float RAIN_DURATION_MAX_SECONDS = 120;
+
+    //Day Night
+    public const int DAY_DURATION_SECONDS = 90;
+    public const int NIGHT_DURATION_SECONDS = 60;
+    public const int DAYS_PER_MATCH = 4;
+
+    //Rain
+    public const float RAIN_SPEED_REDUCE = -3;
+    public const int RAIN_START_MIN_SECONDS = 120;
+    public const int RAIN_START_MAX_SECONDS = 300;
+    public const int RAIN_DURATION_MIN_SECONDS = 30;
+    public const int RAIN_DURATION_MAX_SECONDS = 120;
+
+
+
+    // Events
+    public event EventHandler OnStartNight;
+    public event EventHandler OnStartDay;
+
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject); // Uni�tava duplikat
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Odr�ava objekat kroz scene
+    }
 
     void Start()
     {
         StartCoroutine(_Rain());
-
+        StartCoroutine(_DayNightCycle());
     }
 
     /// <summary>
@@ -37,5 +64,18 @@ public class MapEvents : MonoBehaviour
         rainEffect.SetActive(false);
     }
 
-
+    // Beleska kako ce ovo da radi
+    // Dan 90 sekundi onda pocinje noc 30 sekundi - mozda ipak da bude 4 dana dan 90s i noc 60s
+    // Kad pocne noc signalirace se Playerima da je noc
+    // Pri isteku 60 sekundi vraca se dan
+    // Tako 4 dana onda ostaje samo noc (ili nesto drugo Total darkness) do kraja borbe
+    private IEnumerator _DayNightCycle() {
+        for(int day=1; day<=DAYS_PER_MATCH; day++) {
+            yield return new WaitForSeconds(DAY_DURATION_SECONDS);
+            OnStartNight?.Invoke(this, EventArgs.Empty);
+            yield return new WaitForSeconds(NIGHT_DURATION_SECONDS);
+            OnStartDay?.Invoke(this, EventArgs.Empty);
+        }
+        // Total Darkness do kraj meca
+    }
 }
