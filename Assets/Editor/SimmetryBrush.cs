@@ -44,7 +44,7 @@ public class SymmetryBrush : GridBrush
     [CustomEditor(typeof(SymmetryBrush))]
 public class SymmetryBrushEditor : GridBrushEditor
 {
-    private SymmetryBrush lineBrush { get { return target as SymmetryBrush; } }
+    private SymmetryBrush symmetryBrush { get { return target as SymmetryBrush; } }
     public override void OnPaintSceneGUI(GridLayout grid, GameObject brushTarget, BoundsInt position, GridBrushBase.Tool tool, bool executing) {
         int distanceFromXAxis = position.x;
         int distanceFromYAxis = position.y;
