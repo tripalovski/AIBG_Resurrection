@@ -24,7 +24,13 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     /// <param name="amount">Amount for which speed is changed</param>
     /// <param name="time">Time after which change will be nillified</param>
-    public IEnumerator ChangeSpeed(float amount, float time) {
+    public void ChangeSpeed(float amount, float time) {
+        StartCoroutine(_StartChangeSpeed(amount, time));
+    }
+
+
+
+    public IEnumerator _StartChangeSpeed(float amount, float time) {
         speedChange += amount;
         speed = (BASE_SPEED + speedChange < MIN_SPEED) ? MIN_SPEED : BASE_SPEED + speedChange;
         yield return new WaitForSeconds(time);

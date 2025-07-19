@@ -11,14 +11,23 @@ public class Player : MonoBehaviour
     private void Start() {
         //Events
         MapEvents.Instance.OnStartNight += Map_OnStartNight;
+        MapEvents.Instance.OnStartRain += Map_OnStartRain;
     }
 
 
-    private void Map_OnStartNight(object sender, System.EventArgs e) {
-        NightBoost();
-    }
 
     private void NightBoost() {
         Debug.Log("Night boost for " + MapEvents.NIGHT_DURATION_SECONDS + " seconds");
+    }
+
+
+
+    // Events methods
+    private void Map_OnStartRain(object sender, MapEvents.OnStartRainEventArgs e) {
+        playerMovement.ChangeSpeed(e.speedReduce, e.reduceDuration);
+    }
+
+    private void Map_OnStartNight(object sender, System.EventArgs e) {
+        NightBoost();
     }
 }

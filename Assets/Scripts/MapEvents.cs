@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MapEvents : MonoBehaviour
 {
@@ -31,16 +32,21 @@ public class MapEvents : MonoBehaviour
     // Events
     public event EventHandler OnStartNight;
     public event EventHandler OnStartDay;
+    public event EventHandler<OnStartRainEventArgs> OnStartRain;
+    public class OnStartRainEventArgs : EventArgs {
+        public float speedReduce = RAIN_SPEED_REDUCE;
+        public int reduceDuration;
+    }
 
 
     private void Awake() {
         if (Instance != null && Instance != this) {
-            Destroy(gameObject); // Uniï¿½tava duplikat
+            Destroy(gameObject); // Uništava duplikat
             return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Odrï¿½ava objekat kroz scene
+        DontDestroyOnLoad(gameObject); // Održava objekat kroz scene
     }
 
     void Start()
@@ -55,13 +61,11 @@ public class MapEvents : MonoBehaviour
     /// </summary>
     private IEnumerator _Rain() {
         yield return new WaitForSeconds(Random.Range(RAIN_START_MIN_SECONDS, RAIN_START_MAX_SECONDS));
-        rainEffect.SetActive(true);
-        float rainDuration = Random.Range(RAIN_DURATION_MIN_SECONDS, RAIN_DURATION_MAX_SECONDS);
-        foreach (GameObject player in players) {
-            StartCoroutine(player.GetComponent<PlayerMovement>().ChangeSpeed(RAIN_SPEED_REDUCE, rainDuration));
-        }
+        int rainDuration = Random.Range(RAIN_DURATION_MIN_SECONDS, RAIN_DURATION_MAX_SECONDS);
+        rainEffect.SetActive(true); // TODO delegiraj nekoj drugoj klasi
+        OnStartRain?.Invoke(this, new OnStartRainEventArgs { reduceDuration = rainDuration });
         yield return new WaitForSeconds(rainDuration);
-        rainEffect.SetActive(false);
+        rainEffect.SetActive(false); // TODO isto
     }
 
     // Beleska kako ce ovo da radi
