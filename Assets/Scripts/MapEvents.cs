@@ -41,12 +41,12 @@ public class MapEvents : MonoBehaviour
 
     private void Awake() {
         if (Instance != null && Instance != this) {
-            Destroy(gameObject); // Uništava duplikat
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Održava objekat kroz scene
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
