@@ -24,7 +24,6 @@ public class WorldTime : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         minuteLength =  dayLength / MINUTES_IN_DAY;
     }
