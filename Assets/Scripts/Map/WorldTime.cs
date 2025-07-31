@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-// Timer in format of hours:Minutes
+// Timer in format of Hours:Minutes
 public class WorldTime : MonoBehaviour
 {
     public static WorldTime Instance { get; private set; }

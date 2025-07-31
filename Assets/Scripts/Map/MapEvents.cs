@@ -68,11 +68,10 @@ public class MapEvents : MonoBehaviour
         rainEffect.SetActive(false); // TODO isto
     }
 
-    // Beleska kako ce ovo da radi
-    // Dan 90 sekundi onda pocinje noc 30 sekundi - mozda ipak da bude 4 dana dan 90s i noc 60s
-    // Kad pocne noc signalirace se Playerima da je noc
-    // Pri isteku 60 sekundi vraca se dan
-    // Tako 4 dana onda ostaje samo noc (ili nesto drugo Total darkness) do kraja borbe
+
+    /// <summary>
+    /// After 4. night cycle stops and activates another mode
+    /// </summary>
     private IEnumerator _DayNightCycle() {
         for(int day=1; day<=DAYS_PER_MATCH; day++) {
             yield return new WaitForSeconds(DAY_DURATION_SECONDS);
@@ -80,6 +79,6 @@ public class MapEvents : MonoBehaviour
             yield return new WaitForSeconds(NIGHT_DURATION_SECONDS);
             OnStartDay?.Invoke(this, EventArgs.Empty);
         }
-        // Total Darkness do kraj meca
+        // Activate some boost till end of match, so it can finish faster
     }
 }
